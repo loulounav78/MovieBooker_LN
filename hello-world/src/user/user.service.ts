@@ -5,10 +5,14 @@ import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './user.schema';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import {UnauthorizedException } from '@nestjs/common';
+import {JwtService } from '@nestjs/jwt';
+
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,
+  private jwtService: JwtService) {}
 
   async register(registerDto: RegisterDto) {
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
@@ -19,12 +23,20 @@ export class UserService {
   async login(loginDto: LoginDto) {
     const user = await this.userModel.findOne({ email: loginDto.email });
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedException('Info incorrect');
     }
     const isPasswordValid = await bcrypt.compare(loginDto.password, user.password);
     if (!isPasswordValid) {
-      throw new Error('Invalid credentials');
+      throw new UnauthorizedException('Info incorrect');
     }
-    return { message: 'Login successful' };
+
+    const var1 = { email: user.email, sub: user._id };
+    const token = this.jwtService.sign(var1);
+
+    return {
+      message: 'Connexion réussi',
+      access_token: token,
+    };
+
   }
 }

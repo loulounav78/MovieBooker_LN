@@ -1,7 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class UserController {
@@ -15,5 +16,11 @@ export class UserController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return this.userService.login(loginDto);
+  }
+
+  @UseGuards(JwtAuthGuard) // 🔒 Protéger cette route avec JWT
+  @Get('profile')
+  getProfile() {
+    return { message: 'You are authenticated' };
   }
 }
