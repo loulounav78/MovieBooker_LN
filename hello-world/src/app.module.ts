@@ -15,7 +15,7 @@ import { ReservationService } from './reservation/reservation.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/MovieBooker'),
+    MongooseModule.forRoot('mongodb+srv://loulounav78:emksiVg97GUnPevf@cluster0.c7gxw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'),
     UserModule,
     ConfigModule.forRoot({ isGlobal: true }),
     MoviesModule,
