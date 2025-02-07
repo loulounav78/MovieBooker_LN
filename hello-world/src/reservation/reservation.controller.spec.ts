@@ -1,22 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { ReservationController } from './reservation.controller';
+import { ReservationService } from './reservation.service';
 import { JwtService } from '@nestjs/jwt';
 import { getModelToken } from '@nestjs/mongoose'; // Utilisé pour obtenir le token du modèle
 
-describe('UserController', () => {
-  let controller: UserController;
-  let service: UserService;
+describe('ReservationController', () => {
+  let controller: ReservationController;
+  let service: ReservationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
+      controllers: [ReservationController],
       providers: [
-        UserService,
+        ReservationService,
         {
-          provide: getModelToken('User'), // Mock du modèle User
+          provide: getModelToken('Reservation'), // Mock du modèle Reservation
           useValue: {
-            // Mock des méthodes du modèle que UserService utilise
+            // Mock des méthodes du modèle que ReservationService utilise, par exemple :
             findOne: jest.fn(),
             create: jest.fn(),
             save: jest.fn(),
@@ -32,8 +32,8 @@ describe('UserController', () => {
       ],
     }).compile();
 
-    controller = module.get<UserController>(UserController);
-    service = module.get<UserService>(UserService);
+    controller = module.get<ReservationController>(ReservationController);
+    service = module.get<ReservationService>(ReservationService);
   });
 
   it('should be defined', () => {

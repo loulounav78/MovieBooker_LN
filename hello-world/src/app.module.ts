@@ -6,12 +6,21 @@ import { AppService } from './app.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 import { UserModule } from './user/user.module';
+import { MoviesModule } from './movies/movies.module';
+import { ReservationModule } from './reservation/reservation.module';
+import { MoviesController } from './movies/movies.controller';
+import { ReservationController } from './reservation/reservation.controller';
+import { MoviesService } from './movies/movies.service';
+import { ReservationService } from './reservation/reservation.service';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/MovieBooker'),
-    UserModule],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+    UserModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    MoviesModule,
+    ReservationModule],
+  controllers: [],//MoviesController
+  providers: [],//MoviesService
 })
 export class AppModule {}
