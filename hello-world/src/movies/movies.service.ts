@@ -52,7 +52,7 @@ export class MoviesService {
   }
 
   async getMovieList(pageNb: number, sort_by: string, query: string) {
-    const url = `${this.API_URL}/search/movie?api_key=${this.API_KEY}&language=fr-FR&query=${encodeURIComponent(query)}&page=${pageNb}&sort_by=${sort_by}`;
+    const url = `${this.API_URL}/search/movie?api_key=${this.API_KEY}&language=fr-FR&query=${query}&sort_by=${sort_by}&page=${pageNb}&include_adult=false;`;
     try {
         const response = await this.httpService.axiosRef.get(url);
         return response.data;
